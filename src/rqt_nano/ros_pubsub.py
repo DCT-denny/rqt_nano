@@ -41,9 +41,9 @@ class ROSdata(QWidget):
         self.subscriber_group()
         #self.publisher_group()
 
-        self.pushButton.clicked.connect(self.startCount)
+        #self.pushButton.clicked.connect(self.startCount)
 
-        self.pushButton_2.clicked.connect(self.stopCount)
+        #self.pushButton_2.clicked.connect(self.stopCount)
         self.updata_pic.connect(self.slotpic)
 
     #def publisher_group(self):
@@ -53,12 +53,7 @@ class ROSdata(QWidget):
         rospy.Subscriber("/alarm",Int16, self.callback)
         #self.timer.start(1000)
 
-    #Start the Timer
-    def startCount(self):
-        self.timer.start(1000)
-    # Stop the Timer
-    def stopCount(self):
-        self.timer.stop()
+
 
     def timeslot(self):
         self.label.setPixmap(QPixmap("/home/denny3/new_work/src/rqt_nano/LOGOtest4.png"))
@@ -84,8 +79,8 @@ class ROSdata(QWidget):
         self.warn = alarm.data
         print("alarm:" + str(alarm.data))
         if alarm.data ==1:
-            pass
 
+            pass
 
             #self.label.setPixmap(QPixmap("/home/denny3/new_work/src/rqt_nano/LOGOtest5.png"))
 
@@ -96,11 +91,17 @@ class ROSdata(QWidget):
         self.updata_pic.emit()
     def slotpic(self):
         if self.warn == 1:
-            self.point=1
-            self.timer3.start(100)
+            self.gif = QMovie('/home/denny3/new_work/src/rqt_nano/LOGO_gif_final.gif')
+            self.gif.setSpeed(300)
+            self.gif.setScaledSize(QSize(431,390))
+            self.label.setMovie(self.gif)
+            self.gif.start()
+            #self.point=1
+            #self.timer3.start(100)
 
             #self.timer3.start(1)
         else:
-            self.point=0
+            pass
+            #self.point=0
             self.timer3.start(900)
 
