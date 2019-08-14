@@ -28,6 +28,8 @@ class ROSdata(QWidget):
         ui_file = os.path.join(rospkg.RosPack().get_path('rqt_nano'), 'resource', 'MyPlugin.ui')
         loadUi(ui_file, self)
         self.cnt=0
+        self.zerocnt=0
+        self.backwarn=0
         self.warn=0
         self.point=0
         self.timer = QTimer(self)
@@ -75,7 +77,7 @@ class ROSdata(QWidget):
         print("point:" + str(self.point))
 
     def callback(self,alarm):
-
+        #self.gif = QMovie('/home/denny3/new_work/src/rqt_nano/LOGO_gif_final.gif')
         self.warn = alarm.data
         print("alarm:" + str(alarm.data))
         if alarm.data ==1:
@@ -90,18 +92,30 @@ class ROSdata(QWidget):
             pass
         self.updata_pic.emit()
     def slotpic(self):
+        self.gif = QMovie('/home/denny3/new_work/src/rqt_nano/LOGO_gif_final.gif')
         if self.warn == 1:
-            self.gif = QMovie('/home/denny3/new_work/src/rqt_nano/LOGO_gif_final.gif')
+
             self.gif.setSpeed(300)
             self.gif.setScaledSize(QSize(431,390))
             self.label.setMovie(self.gif)
             self.gif.start()
+            self.backwarn = self.warn
             #self.point=1
             #self.timer3.start(100)
 
             #self.timer3.start(1)
         else:
-            pass
+            #pass
             #self.point=0
-            self.timer3.start(900)
+            #self.gif.stop()
+            print("self.zerocnt=" + str(self.zerocnt))
+            if self.backwarn ==1:
+                self.zerocnt = self.zerocnt+1
+            if self.zerocnt ==4:
+                self.label.setPixmap(QPixmap("/home/denny3/new_work/src/rqt_nano/LOGOtest1.png"))
+                self.zerocnt=0
+                self.backwarn = self.warn
+            #self.timer3.start(900)
+            #self.label.setPixmap(QPixmap("/home/denny3/new_work/src/rqt_nano/LOGOtest1.png"))
+
 
